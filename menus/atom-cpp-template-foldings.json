@@ -1,26 +1,21 @@
 {
-  "context-menu": {
-    "atom-text-editor": [
-      {
-        "label": "Toggle atom-cpp-template-foldings",
-        "command": "atom-cpp-template-foldings:toggle"
-      }
-    ]
-  },
-  "menu": [
-    {
-      "label": "Packages",
-      "submenu": [
-        {
-          "label": "atom-cpp-template-foldings",
-          "submenu": [
-            {
-              "label": "Toggle",
-              "command": "atom-cpp-template-foldings:toggle"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    "context-menu": {
+        "atom-text-editor": [{
+            "label": "C++ Template Foldings",
+            "submenu": [{
+                "label": "Fold",
+                "command": "atom-cpp-template-foldings:fold"
+            }]
+        }]
+    },
+    "menu": [{
+        "label": "Packages",
+        "submenu": [{
+            "label": "C++ Template Foldings",
+            "submenu": [{
+                "label": "Fold",
+                "command": "atom-cpp-template-foldings:fold"
+            }]
+        }]
+    }]
 }
