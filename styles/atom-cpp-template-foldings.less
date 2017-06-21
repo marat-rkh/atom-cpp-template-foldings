@@ -9,6 +9,23 @@
     border-style: solid;
     border-width: 1px;
     border-color: #cccccc;
-    background-color: #000000;
+    background-color: #282c34;
     transform: translate(0, -100%);
+}
+
+@keyframes folding-preview-border-blink {
+   50% { border-color: #4195f4; }
+}
+
+.folding-preview-under-cursor {
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+    background-color: #282c34;
+    transform: translate(0, -100%);
+    animation-name: folding-preview-border-blink;
+    animation-duration: 0.85s;
+    animation-iteration-count: infinite;
+    animation-timing-function: step-start;
 }
