@@ -3,8 +3,8 @@
         "atom-text-editor": [{
             "label": "C++ Template Foldings",
             "submenu": [{
-                "label": "Fold",
-                "command": "atom-cpp-template-foldings:fold"
+                "label": "Fold all",
+                "command": "atom-cpp-template-foldings:fold-all"
             }]
         }]
     },
@@ -13,8 +13,8 @@
         "submenu": [{
             "label": "C++ Template Foldings",
             "submenu": [{
-                "label": "Fold",
-                "command": "atom-cpp-template-foldings:fold"
+                "label": "Fold all",
+                "command": "atom-cpp-template-foldings:fold-all"
             }]
         }]
     }]

@@ -1,5 +1,5 @@
 {
     "atom-workspace": {
-        "ctrl-alt-o": "atom-cpp-template-foldings:fold"
+        "ctrl-alt-o": "atom-cpp-template-foldings:fold-all"
     }
 }
