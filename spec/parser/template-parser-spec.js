@@ -1,17 +1,10 @@
 'use babel';
 
-import {
-    TemplateParser,
-    TemplateParameterKind as Kind
-} from '../../lib/parser/template-parser.js';
+import { TemplateParser } from '../../lib/parser/template-parser.js';
+import { TypeP, NonTypeP, TemplateP } from '../../lib/parser/model.js';
 
-fdescribe('TemplateParser', () => {
-    const EMPTY_TYPE_PARAM = {
-        kind: Kind.TYPE,
-        isPack: false,
-        name: '',
-        'default': ''
-    };
+describe('TemplateParser', () => {
+    const EMPTY_TYPE_PARAM = TypeP(/*isPack*/false, '', '');
 
     it('should parse simple general template', () => {
         const text =
@@ -26,12 +19,12 @@ fdescribe('TemplateParser', () => {
         const actual = TemplateParser.templateOnly.parse(text);
         expect(actual.status).toBe(true);
         expect(actual.value.params).toEqual([
-            { kind: Kind.TYPE, isPack: false, name: 'A', 'default': '' },
-            { kind: Kind.TYPE, isPack: false, name: 'B', 'default': '' },
-            { kind: Kind.NON_TYPE, value: 'int N' },
-            { kind: Kind.TEMPLATE, params: [EMPTY_TYPE_PARAM], isPack: false, name: 'TT', 'default': '' },
-            { kind: Kind.TYPE, isPack: false, name: 'C', 'default': 'One' },
-            { kind: Kind.TYPE, isPack: false, name: '', 'default': 'double' }
+            TypeP(/*isPack*/false, 'A', ''),
+            TypeP(/*isPack*/false, 'B', ''),
+            NonTypeP('int N'),
+            TemplateP([EMPTY_TYPE_PARAM], /*isPack*/false, 'TT', ''),
+            TypeP(/*isPack*/false, 'C', 'One'),
+            TypeP(/*isPack*/false, '', 'double')
         ]);
     });
 
@@ -51,12 +44,6 @@ fdescribe('TemplateParser', () => {
         const text = `template<class> class TT`;
         const actual = TemplateParser.templateP.parse(text);
         expect(actual.status).toBe(true);
-        expect(actual.value).toEqual({
-            kind: Kind.TEMPLATE,
-            params: [EMPTY_TYPE_PARAM],
-            isPack: false,
-            name: 'TT',
-            'default': ''
-        });
+        expect(actual.value).toEqual(TemplateP([EMPTY_TYPE_PARAM], /*isPack*/false, 'TT', ''));
     });
 });
