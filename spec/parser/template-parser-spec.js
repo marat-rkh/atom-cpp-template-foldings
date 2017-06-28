@@ -2,6 +2,7 @@
 
 import { TemplateParser } from '../../lib/parser/template-parser.js';
 import { TypeP, NonTypeP, TemplateP } from '../../lib/parser/model.js';
+import TestUtils from '../test-utils.js';
 
 describe('TemplateParser', () => {
     const EMPTY_TYPE_PARAM = TypeP(/*isPack*/false, '', '');
@@ -45,5 +46,15 @@ describe('TemplateParser', () => {
         const actual = TemplateParser.templateP.parse(text);
         expect(actual.status).toBe(true);
         expect(actual.value).toEqual(TemplateP([EMPTY_TYPE_PARAM], /*isPack*/false, 'TT', ''));
+    });
+
+    it('should parse template as prefix', () => {
+        const text = TestUtils.readTestDataAsString('multiple_class_templates.h');
+        const actual = TemplateParser.templateAsPrefix.parse(text);
+        expect(actual.status).toBe(true);
+        expect(actual.value).toEqual({
+            charsParsed: 17,
+            params: [TypeP(/*isPack*/false, 'T', '')]
+        });
     });
 });

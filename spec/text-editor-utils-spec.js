@@ -3,7 +3,7 @@
 import { TextEditorUtils as TEUtils } from '../lib/text-editor-utils.js';
 import { Point } from 'atom';
 
-fdescribe('TextEditorUtils', () => {
+describe('TextEditorUtils', () => {
     const editor = atom.workspace.buildTextEditor();
 
     afterEach(() => {
