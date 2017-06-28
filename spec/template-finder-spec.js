@@ -36,4 +36,23 @@ describe('TemplateFinder', () => {
         expect(actual[1].range.isEqual([[3, 0], [3, 17]])).toBe(true);
         expect(actual[2].range.isEqual([[6, 0], [6, 25]])).toBe(true);
     });
+
+    it('should find templates in boost/hana/bool', () => {
+        const text = TestUtils.readTestDataAsString('from_boost_hana_bool.h');
+        editor.setText(text);
+        const actual = TemplateFinder.find(editor);
+        expect(actual.length).toBe(3);
+        expect(actual[0].range.isEqual([[25, 0], [27, 8]])).toBe(true);
+        expect(actual[1].range.isEqual([[32, 0], [32, 11]])).toBe(true);
+        expect(actual[2].range.isEqual([[34, 4], [34, 59]])).toBe(true);
+    });
+
+    it('should find templates in boost/hana/basic_tuple', () => {
+        const text = TestUtils.readTestDataAsString('from_boost_hana_basic_tuple.h');
+        editor.setText(text);
+        const actual = TemplateFinder.find(editor);
+        expect(actual.length).toBe(2);
+        expect(actual[0].range.isEqual([[25, 0], [25, 71]])).toBe(true);
+        expect(actual[1].range.isEqual([[28, 0], [28, 34]])).toBe(true);
+    });
 });

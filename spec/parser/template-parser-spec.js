@@ -67,13 +67,41 @@ describe('TemplateParser', () => {
                 typename KeyEq = std::equal_to<Key>
             >`;
         const actual = TemplateParser.templateOnly.parse(text);
-        console.log(actual);
         expect(actual.status).toBe(true);
         expect(actual.value.params).toEqual([
             TypeP(/*isPack*/false, 'Key', ''),
             TypeP(/*isPack*/false, 'Val', ''),
             TypeP(/*isPack*/false, 'Hash', 'std::hash<Key>'),
             TypeP(/*isPack*/false, 'KeyEq', 'std::equal_to<Key>')
+        ]);
+    });
+
+    it('should parse default with parametrized type from boost/hana/bool', () => {
+        const text =
+            `template <typename Other, typename = typename std::enable_if<
+                std::is_same<typename detail::decay<Other>::type, basic_tuple>::value
+            >::type>`;
+        const actual = TemplateParser.templateOnly.parse(text);
+        expect(actual.status).toBe(true);
+        // Note: default value formatting matters here!
+        const expectedDefaultValue =
+            `typename std::enable_if<
+                std::is_same<typename detail::decay<Other>::type, basic_tuple>::value
+            >::type`;
+        expect(actual.value.params).toEqual([
+            TypeP(/*isPack*/false, 'Other', ''),
+            TypeP(/*isPack*/false, '', expectedDefaultValue)
+        ]);
+    });
+
+    it('should parse default with parametrized type from boost/hana/basic_tuple', () => {
+        const text = `template <typename T, T N, typename = std::make_integer_sequence<T, N>>`;
+        const actual = TemplateParser.templateOnly.parse(text);
+        expect(actual.status).toBe(true);
+        expect(actual.value.params).toEqual([
+            TypeP(/*isPack*/false, 'T', ''),
+            NonTypeP('T N'),
+            TypeP(/*isPack*/false, '', 'std::make_integer_sequence<T, N>')
         ]);
     });
 });
