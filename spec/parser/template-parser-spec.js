@@ -57,4 +57,23 @@ describe('TemplateParser', () => {
             params: [TypeP(/*isPack*/false, 'T', '')]
         });
     });
+
+    it('should parse default with parametrized type', () => {
+        const text =
+            `template<
+                typename Key,
+                typename Val,
+                typename Hash = std::hash<Key>,
+                typename KeyEq = std::equal_to<Key>
+            >`;
+        const actual = TemplateParser.templateOnly.parse(text);
+        console.log(actual);
+        expect(actual.status).toBe(true);
+        expect(actual.value.params).toEqual([
+            TypeP(/*isPack*/false, 'Key', ''),
+            TypeP(/*isPack*/false, 'Val', ''),
+            TypeP(/*isPack*/false, 'Hash', 'std::hash<Key>'),
+            TypeP(/*isPack*/false, 'KeyEq', 'std::equal_to<Key>')
+        ]);
+    });
 });
