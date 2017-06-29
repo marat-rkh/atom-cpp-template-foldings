@@ -1,6 +1,6 @@
 'use babel';
 
-import { TextEditorUtils as TEUtils } from '../lib/text-editor-utils.js';
+import { TextEditorUtils as TEUtils } from '../../lib/utils/text-editor-utils.js';
 import { Point } from 'atom';
 
 describe('TextEditorUtils', () => {
