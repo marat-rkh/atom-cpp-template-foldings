@@ -1,1 +1,1 @@
-spec/test-data/always-crlf.txt -text
+spec/test-data/nested_class_template_crlf.h -text
