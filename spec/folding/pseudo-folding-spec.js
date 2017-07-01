@@ -4,7 +4,7 @@ import PseudoFolding from '../../lib/folding/pseudo-folding.js';
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
-describe('PseudoFolding', () => {
+fdescribe('PseudoFolding', () => {
     it('should fold valid range with valid fold area size', () => {
         const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
         TestUtils.withTextEditor(testDataPath, editor => {
@@ -60,4 +60,17 @@ describe('PseudoFolding', () => {
             }
         });
     });
+
+    it('should not fold invalid size', () => {
+        const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
+        TestUtils.withTextEditor(testDataPath, editor => {
+            const range = new Range([2, 0], [9, 1]);
+            for(let size of [-1, 0, 126, 127]) {
+                expect(PseudoFolding.canBeFolded(editor, range, size)).toBe(false);
+                expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).toThrow();
+            }
+        });
+    });
+
+    // TODO check invalid ranges
 });
