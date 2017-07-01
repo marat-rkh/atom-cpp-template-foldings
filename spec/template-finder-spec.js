@@ -55,4 +55,13 @@ describe('TemplateFinder', () => {
         expect(actual[0].range.isEqual([[25, 0], [25, 71]])).toBe(true);
         expect(actual[1].range.isEqual([[28, 0], [28, 34]])).toBe(true);
     });
+
+    it('should find nested class template with CRLF', () => {
+        const text = TestUtils.readTestDataAsString('nested_class_template_crlf.h');
+        editor.setText(text);
+        const actual = TemplateFinder.find(editor);
+        expect(actual.length).toBe(2);
+        expect(actual[0].range.isEqual([[2, 0], [9, 1]])).toBe(true);
+        expect(actual[1].range.isEqual([[14, 4], [14, 21]])).toBe(true);
+    });
 });

@@ -54,6 +54,8 @@ describe('TemplateParser', () => {
         expect(actual.status).toBe(true);
         expect(actual.value).toEqual({
             charsParsed: 17,
+            endLine: 0,
+            endColumn: 17,
             params: [TypeP(/*isPack*/false, 'T', '')]
         });
     });
