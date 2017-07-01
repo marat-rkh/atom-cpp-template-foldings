@@ -5,8 +5,11 @@ import path from 'path';
 
 export default {
     readTestDataAsString(relativePath) {
-        const testFilePath = path.join(__dirname, 'test-data', relativePath);
-        return fs.readFileSync(testFilePath, 'utf-8');
+        return fs.readFileSync(this.testDataAbsolutePath(relativePath), 'utf-8');
+    },
+
+    testDataAbsolutePath(relativePath) {
+        return path.join(__dirname, 'test-data', relativePath);
     },
 
     printScreenContent(textEditor) {
@@ -22,6 +25,14 @@ export default {
 
     getVisibleCharsNumberAtScreenRow(textEditor, screenRow) {
         return textEditor.clipScreenPosition([screenRow, Infinity]).column;
+    },
+
+    withTextEditor(filePath, callback) {
+        waitsForPromise(() => {
+            return atom.workspace.open(filePath).then(editor => {
+                callback(editor);
+            });
+        });
     },
 
     _getNumberLength(numBase10) {
