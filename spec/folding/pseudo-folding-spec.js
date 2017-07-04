@@ -4,6 +4,11 @@ import { PseudoFolding, PseudoFoldingCheck as PFCheck } from '../../lib/folding/
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
+describe('PseudoFolding', () => {
+    itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template.h'));
+    itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template_crlf.h'));
+});
+
 function itShouldWorkOn(testDataPath) {
     describe(`on ${testDataPath}`, () => {
         it('should fold valid range with valid fold area size', () => {
@@ -22,7 +27,7 @@ function itShouldWorkOn(testDataPath) {
             });
         });
 
-        it('should fold when some folding already presents in the range', () => {
+        it('should fold when some folding already presents in the range 1', () => {
             TestUtils.withTextEditor(testDataPath, editor => {
                 const range = new Range([2, 0], [9, 1]);
                 const size = 8;
@@ -41,6 +46,13 @@ function itShouldWorkOn(testDataPath) {
 
                     editor.unfoldAll();
                 }
+            });
+        });
+
+        it('should fold when some folding already presents in the range 2', () => {
+            TestUtils.withTextEditor(testDataPath, editor => {
+                const range = new Range([2, 0], [9, 1]);
+                const size = 8;
                 for(let row = 2; row <= 8; ++row) {
                     const rowEnd = editor.clipBufferPosition([row + 1, Infinity]);
                     editor.setSelectedBufferRange([[row, 0], rowEnd]);
@@ -85,8 +97,3 @@ function itShouldWorkOn(testDataPath) {
         });
     });
 }
-
-describe('PseudoFolding', () => {
-    itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template.h'));
-    itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template_crlf.h'));
-});
