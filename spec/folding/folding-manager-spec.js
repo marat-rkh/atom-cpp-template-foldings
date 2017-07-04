@@ -125,7 +125,7 @@ describe('FoldingManager', () => {
             const config = {
                 'editor.softWrap': true,
                 'editor.softWrapAtPreferredLineLength': true,
-                'editor.preferredLineLength': 50
+                'editor.preferredLineLength': 58
             };
             TestUtils.withConfig(config, () => {
                 const manager = new FoldingsManager(editor);

@@ -87,10 +87,12 @@ function itShouldWorkOn(testDataPath) {
             });
         });
 
-        it('should fail fold check when folding length exceeds max line length', () => {
+        it('should fail fold check when folding length >= max line length', () => {
             TestUtils.withTextEditor(testDataPath, editor => {
                 const range = new Range([2, 0], [9, 1]);
                 const maxLineLength = 120;
+                expect(PseudoFolding.checkFoldingPossible(editor, range, 120, maxLineLength))
+                    .toBe(PFCheck.WILL_EXCEED_MAX_LINE_LENGTH);
                 expect(PseudoFolding.checkFoldingPossible(editor, range, 121, maxLineLength))
                     .toBe(PFCheck.WILL_EXCEED_MAX_LINE_LENGTH);
             });
