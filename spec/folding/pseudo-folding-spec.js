@@ -6,7 +6,15 @@ import { Range } from 'atom';
 
 describe('PseudoFolding', () => {
     itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template.h'));
+
     itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template_crlf.h'));
+
+    it('should fail fold check when text contains tabs', () => {
+        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template_tabs.h'), editor => {
+            const range = new Range([2, 0], [9, 1]);
+            expect(PseudoFolding.checkFoldingPossible(editor, range, 58)).toBe(PFCheck.TEXT_HAS_TABS);
+        });
+    });
 });
 
 function itShouldWorkOn(testDataPath) {

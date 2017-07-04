@@ -151,6 +151,16 @@ describe('FoldingManager', () => {
             });
         });
     });
+
+    it('should not fold when template text contains tab characters', () => {
+        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template_tabs.h'), editor => {
+            const manager = new FoldingsManager(editor);
+            const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
+            const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
+            expect(f1.status).toBe(FoldingStatus.TEXT_HAS_TABS);
+            expect(f2.status).toBe(FoldingStatus.OK);
+        });
+    });
 });
 
 function expectAtBufferRow(editor, f, row, lastEvent) {
