@@ -15,10 +15,9 @@ describe('PreviewRenderer', () => {
             TypeP(/*isPack*/false, 'C', 'One'),
             TypeP(/*isPack*/false, '', 'double')
         ];
-        expect(PreviewRenderer.render(params)).toEqual({
-            success: true,
-            text: 'template<A, B, int N, template<_> TT, C = One, _ = double>'
-        });
+        const res = PreviewRenderer.render(params);
+        expect(res.success).toBe(true);
+        expect(res.text).toBe('template<A, B, int N, template<_> TT, C = One, _ = double>');
     });
 
     it('should not render when params list is empty', () => {
@@ -41,10 +40,9 @@ describe('PreviewRenderer', () => {
             TypeP(/*isPack*/false, `With
                                             newlines and spaces`, '')
         ];
-        expect(PreviewRenderer.render(params)).toEqual({
-            success: true,
-            text: 'template<With tab, With spaces, With newlines and spaces>'
-        });
+        const res = PreviewRenderer.render(params);
+        expect(res.success).toBe(true);
+        expect(res.text).toBe('template<With tab, With spaces, With newlines and spaces>');
     });
 
     it('should create preview as one line text', () => {
@@ -56,9 +54,8 @@ describe('PreviewRenderer', () => {
             TypeP(/*isPack*/false, 'Other', ''),
             TypeP(/*isPack*/false, '', multilineDefaultValue)
         ];
-        expect(PreviewRenderer.render(params)).toEqual({
-            success: true,
-            text: 'template<Other, _ = typename std::enable_if< std::is_same<typename detail::decay<Other>::type, basic_tuple>::value >::type>'
-        });
+        const res = PreviewRenderer.render(params);
+        expect(res.success).toBe(true);
+        expect(res.text).toBe('template<Other, _ = typename std::enable_if< std::is_same<typename detail::decay<Other>::type, basic_tuple>::value >::type>');
     });
 });

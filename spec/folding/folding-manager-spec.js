@@ -7,9 +7,9 @@ import { Range } from 'atom';
 
 describe('FoldingManager', () => {
     const testRange1 = new Range([2, 0], [9, 1]);
-    const testPreview1 = 'template<A, B, int N, template<_> TT, C = One, _ = double>';
+    const testPreview1 = { text: 'template<A, B, int N, template<_> TT, C = One, _ = double>' };
     const testRange2 = new Range([14, 4], [14, 21]);
-    const testPreview2 = 'template<Z>';
+    const testPreview2 = { text: 'template<Z>' };
 
     it('should create foldings', () => {
         TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template.h'), editor => {
