@@ -35,6 +35,22 @@ export default {
         });
     },
 
+    withWrapAtPreferredLineLength(preferredLineLength, callback) {
+        const sw = atom.config.get('editor.softWrap');
+        const swapll = atom.config.get('editor.softWrapAtPreferredLineLength');
+        const pll = atom.config.get('editor.preferredLineLength');
+        atom.config.set('editor.softWrap', true);
+        atom.config.set('editor.softWrapAtPreferredLineLength', true);
+        atom.config.set('editor.preferredLineLength', preferredLineLength);
+        try {
+            callback();
+        } finally {
+            atom.config.set('editor.softWrap', sw);
+            atom.config.set('editor.softWrapAtPreferredLineLength', swapll);
+            atom.config.set('editor.preferredLineLength', pll);
+        }
+    },
+
     _getNumberLength(numBase10) {
         let len = 1;
         while(numBase10 > 9) {

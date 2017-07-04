@@ -1,6 +1,6 @@
 'use babel';
 
-import PseudoFolding from '../../lib/folding/pseudo-folding.js';
+import { PseudoFolding, PseudoFoldingCheck as PFCheck } from '../../lib/folding/pseudo-folding.js';
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
@@ -11,7 +11,7 @@ function itShouldWorkOn(testDataPath) {
                 const range = new Range([2, 0], [9, 1]);
                 const visualSymbolsInRange = 125; // all symbols including spaces, tabs and newlines
                 for(let size = 1; size <= visualSymbolsInRange; ++size) {
-                    expect(PseudoFolding.canBeFolded(editor, range, size)).toBe(true);
+                    expect(PseudoFolding.checkFoldingPossible(editor, range, size)).toBe(PFCheck.POSSIBLE);
                     let folding;
                     expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).not.toThrow();
                     expect(editor.lineTextForScreenRow(1)).toBe('');
@@ -31,7 +31,7 @@ function itShouldWorkOn(testDataPath) {
                     editor.setSelectedBufferRange([[row, 0], rowEnd]);
                     editor.foldSelectedLines();
 
-                    expect(PseudoFolding.canBeFolded(editor, range, size)).toBe(true);
+                    expect(PseudoFolding.checkFoldingPossible(editor, range, size)).toBe(PFCheck.POSSIBLE);
                     let folding;
                     expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).not.toThrow();
                     expect(editor.lineTextForScreenRow(1)).toBe('');
@@ -46,7 +46,7 @@ function itShouldWorkOn(testDataPath) {
                     editor.setSelectedBufferRange([[row, 0], rowEnd]);
                     editor.foldSelectedLines();
 
-                    expect(PseudoFolding.canBeFolded(editor, range, size)).toBe(true);
+                    expect(PseudoFolding.checkFoldingPossible(editor, range, size)).toBe(PFCheck.POSSIBLE);
                     let folding;
                     expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).not.toThrow();
                     expect(editor.lineTextForScreenRow(1)).toBe('');
@@ -62,14 +62,27 @@ function itShouldWorkOn(testDataPath) {
         it('should not fold invalid size', () => {
             TestUtils.withTextEditor(testDataPath, editor => {
                 const range = new Range([2, 0], [9, 1]);
-                for(let size of [-1, 0, 126, 127]) {
-                    expect(PseudoFolding.canBeFolded(editor, range, size)).toBe(false);
+                for(let size of [-1, 0]) {
+                    expect(PseudoFolding.checkFoldingPossible(editor, range, size))
+                        .toBe(PFCheck.FOLD_AREA_IS_INCORRECT);
+                    expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).toThrow();
+                }
+                for(let size of [126, 127]) {
+                    expect(PseudoFolding.checkFoldingPossible(editor, range, size))
+                        .toBe(PFCheck.FOLD_AREA_IS_TOO_WIDE);
                     expect(() => { folding = new PseudoFolding(editor, 0, range, size) }).toThrow();
                 }
             });
         });
 
-        // TODO check invalid ranges
+        it('should fail fold check when folding length exceeds max line length', () => {
+            TestUtils.withTextEditor(testDataPath, editor => {
+                const range = new Range([2, 0], [9, 1]);
+                const maxLineLength = 120;
+                expect(PseudoFolding.checkFoldingPossible(editor, range, 121, maxLineLength))
+                    .toBe(PFCheck.WILL_EXCEED_MAX_LINE_LENGTH);
+            });
+        });
     });
 }
 
