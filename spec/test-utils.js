@@ -35,19 +35,18 @@ export default {
         });
     },
 
-    withWrapAtPreferredLineLength(preferredLineLength, callback) {
-        const sw = atom.config.get('editor.softWrap');
-        const swapll = atom.config.get('editor.softWrapAtPreferredLineLength');
-        const pll = atom.config.get('editor.preferredLineLength');
-        atom.config.set('editor.softWrap', true);
-        atom.config.set('editor.softWrapAtPreferredLineLength', true);
-        atom.config.set('editor.preferredLineLength', preferredLineLength);
+    withConfig(config, callback) {
+        let saved = new Map();
+        for(let key in config) {
+            saved.set(key, atom.config.get(key));
+            atom.config.set(key, config[key]);
+        }
         try {
             callback();
         } finally {
-            atom.config.set('editor.softWrap', sw);
-            atom.config.set('editor.softWrapAtPreferredLineLength', swapll);
-            atom.config.set('editor.preferredLineLength', pll);
+            saved.forEach((value, key) => {
+                atom.config.set(key, value);
+            });
         }
     },
 

@@ -1,6 +1,6 @@
 'use babel';
 
-import FoldingsManager from '../../lib/folding/foldings-manager.js';
+import { FoldingsManager, FoldingStatus } from '../../lib/folding/foldings-manager.js';
 import { FoldingEvent } from '../../lib/folding/folding-event.js';
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
@@ -16,9 +16,9 @@ describe('FoldingManager', () => {
             const manager = new FoldingsManager(editor);
             const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
             const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
-            expect(f1.folded).toBe(true);
+            expect(f1.status).toBe(FoldingStatus.OK);
             expect(f1.foldingInfo).toEqual({ lastEvent: FoldingEvent.CREATED, highlighted: false });
-            expect(f2.folded).toBe(true);
+            expect(f2.status).toBe(FoldingStatus.OK);
             expect(f2.foldingInfo).toEqual({ lastEvent: FoldingEvent.CREATED, highlighted: false });
             expect(editor.getOverlayDecorations().length).toBe(2);
         });
@@ -105,6 +105,50 @@ describe('FoldingManager', () => {
             const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
             expect(f1.foldingInfo.highlighted).toBe(false);
             expect(f2.foldingInfo.highlighted).toBe(true);
+        });
+    });
+
+    it('should not fold when editor.softWrap is enabled', () => {
+        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template.h'), editor => {
+            TestUtils.withConfig({ 'editor.softWrap': true }, () => {
+                const manager = new FoldingsManager(editor);
+                const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
+                const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
+                expect(f1.status).toBe(FoldingStatus.SOFT_WRAP_ONLY_ENABLED);
+                expect(f2.status).toBe(FoldingStatus.SOFT_WRAP_ONLY_ENABLED);
+            });
+        });
+    });
+
+    it('should NOT fold when editor.softWrapAtPreferredLineLength is enabled and line length is too small', () => {
+        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template.h'), editor => {
+            const config = {
+                'editor.softWrap': true,
+                'editor.softWrapAtPreferredLineLength': true,
+                'editor.preferredLineLength': 50
+            };
+            TestUtils.withConfig(config, () => {
+                const manager = new FoldingsManager(editor);
+                const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
+                const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
+                expect(f1.status).toBe(FoldingStatus.WILL_EXCEED_MAX_LINE_LENGTH);
+                expect(f2.status).toBe(FoldingStatus.OK);
+            });
+        });
+    });
+
+    it('should fold when editor.softWrapAtPreferredLineLength is NOT enabled and line length is too small', () => {
+        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template.h'), editor => {
+            const config = {
+                'editor.preferredLineLength': 50
+            };
+            TestUtils.withConfig(config, () => {
+                const manager = new FoldingsManager(editor);
+                const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
+                const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
+                expect(f1.status).toBe(FoldingStatus.OK);
+                expect(f2.status).toBe(FoldingStatus.OK);
+            });
         });
     });
 });
