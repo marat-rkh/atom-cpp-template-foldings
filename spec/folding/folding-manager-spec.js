@@ -69,13 +69,16 @@ describe('FoldingManager', () => {
             const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
             const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
 
-            editor.setTextInBufferRange([[2, 1], [2, 1]], 'inserted text');
+            editor.setTextInBufferRange([[2, 1], [2, 1]], 'inserted text\none more line');
             expect(f1.foldingInfo.lastEvent).toBe(FoldingEvent.DESTROYED);
             expect(editor.getOverlayDecorations().length).toBe(1);
-            expectAtBufferRow(editor, f2, 14, FoldingEvent.MOVED);
-            editor.setTextInBufferRange([[14, 13], [14, 18]], 'this text replaces the old one');
+            expectAtBufferRow(editor, f2, 15, FoldingEvent.MOVED);
+            editor.setTextInBufferRange([[15, 13], [15, 18]], 'this text replaces the old one');
             expect(f2.foldingInfo.lastEvent).toBe(FoldingEvent.DESTROYED);
             expect(editor.getOverlayDecorations().length).toBe(0);
+            for(let r = 0; r <= editor.getLastBufferRow(); ++r) {
+                expect(editor.isFoldedAtBufferRow(r)).toBe(false);
+            }
         });
     });
 
