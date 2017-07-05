@@ -5,15 +5,26 @@ import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
 describe('PseudoFolding', () => {
+    let atomicSoftTabs;
+    beforeEach(() => {
+        atomicSoftTabs = atom.config.get('editor.atomicSoftTabs');
+        atom.config.set('editor.atomicSoftTabs', false);
+    });
+
     itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template.h'));
 
     itShouldWorkOn(TestUtils.testDataAbsolutePath('nested_class_template_crlf.h'));
 
     it('should fail fold check when text contains tabs', () => {
-        TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template_tabs.h'), editor => {
+        const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template_tabs.h');
+        TestUtils.withTextEditor(testDataPath, editor => {
             const range = new Range([2, 0], [9, 1]);
             expect(PseudoFolding.checkFoldingPossible(editor, range, 58)).toBe(PFCheck.TEXT_HAS_TABS);
         });
+    });
+
+    afterEach(() => {
+        atom.config.set('editor.atomicSoftTabs', atomicSoftTabs);
     });
 });
 
