@@ -111,14 +111,12 @@ describe('FoldingManager', () => {
         });
     });
 
-    it('should not fold when editor.softWrap is enabled', () => {
+    it('should throw an exception when editor.softWrap is enabled', () => {
         TestUtils.withTextEditor(TestUtils.testDataAbsolutePath('nested_class_template.h'), editor => {
             TestUtils.withConfig({ 'editor.softWrap': true }, () => {
                 const manager = new FoldingsManager(editor);
-                const f1 = manager.foldWithPreview(testRange1, testPreview1, 1);
-                const f2 = manager.foldWithPreview(testRange2, testPreview2, 2);
-                expect(f1.status).toBe(FoldingStatus.SOFT_WRAP_ONLY_ENABLED);
-                expect(f2.status).toBe(FoldingStatus.SOFT_WRAP_ONLY_ENABLED);
+                expect(() => manager.foldWithPreview(testRange1, testPreview1, 1) ).toThrow();
+                expect(() => manager.foldWithPreview(testRange2, testPreview2, 1) ).toThrow();
             });
         });
     });
