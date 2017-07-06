@@ -1,5 +1,6 @@
 {
     "atom-workspace": {
-        "ctrl-alt-o": "atom-cpp-template-foldings:fold-all"
+        "ctrl-alt-i": "atom-cpp-template-foldings:fold-all",
+        "ctrl-alt-u": "atom-cpp-template-foldings:unfold-all"
     }
 }

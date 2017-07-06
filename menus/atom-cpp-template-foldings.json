@@ -5,6 +5,9 @@
             "submenu": [{
                 "label": "Fold all",
                 "command": "atom-cpp-template-foldings:fold-all"
+            }, {
+                "label": "Unfold all",
+                "command": "atom-cpp-template-foldings:unfold-all"
             }]
         }]
     },
@@ -15,6 +18,9 @@
             "submenu": [{
                 "label": "Fold all",
                 "command": "atom-cpp-template-foldings:fold-all"
+            }, {
+                "label": "Unfold all",
+                "command": "atom-cpp-template-foldings:unfold-all"
             }]
         }]
     }]
