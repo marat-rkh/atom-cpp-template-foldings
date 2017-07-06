@@ -2,13 +2,13 @@
   "name": "atom-cpp-template-foldings",
   "main": "./lib/atom-cpp-template-foldings",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Fold C++ template definitions to make them more readable",
   "keywords": [],
   "activationCommands": {},
-  "repository": "https://github.com/atom/atom-cpp-template-foldings",
+  "repository": "https://github.com/octomarat/atom-cpp-template-foldings",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.9.0 <2.0.0"
   },
   "dependencies": {
     "fs": "0.0.1-security",
