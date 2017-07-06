@@ -4,9 +4,7 @@
   "version": "0.0.0",
   "description": "A short description of your package",
   "keywords": [],
-  "activationCommands": {
-    "atom-workspace": "atom-cpp-template-foldings:fold-all"
-  },
+  "activationCommands": {},
   "repository": "https://github.com/atom/atom-cpp-template-foldings",
   "license": "MIT",
   "engines": {

@@ -20,11 +20,11 @@ describe('AtomCppTemplateFoldings', () => {
         });
 
         it('shows notification when only editor.softWrap option is enabled', () => {
+            waitsForPromise(() => { return activationPromise; });
             const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
             TestUtils.withTextEditor(testDataPath, editor => {
                 TestUtils.withConfig({ 'editor.softWrap': true }, () => {
                     atom.commands.dispatch(workspaceElement, 'atom-cpp-template-foldings:fold-all');
-                    waitsForPromise(() => { return activationPromise; });
                     runs(() => {
                         const ns = atom.notifications.getNotifications();
                         expect(ns.length).toBe(1);
@@ -35,6 +35,7 @@ describe('AtomCppTemplateFoldings', () => {
         });
 
         it('shows notification when editor.softWrapAtPreferredLineLength option is enabled', () => {
+            waitsForPromise(() => { return activationPromise; });
             const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
             TestUtils.withTextEditor(testDataPath, editor => {
                 const config = {
@@ -44,7 +45,6 @@ describe('AtomCppTemplateFoldings', () => {
                 };
                 TestUtils.withConfig(config, () => {
                     atom.commands.dispatch(workspaceElement, 'atom-cpp-template-foldings:fold-all');
-                    waitsForPromise(() => { return activationPromise; });
                     runs(() => {
                         const ns = atom.notifications.getNotifications();
                         expect(ns.length).toBe(1);
@@ -55,6 +55,7 @@ describe('AtomCppTemplateFoldings', () => {
         });
 
         it('does not show notification when atom-cpp-template-foldings.notifyAboutNotFoldedTemplates option is enabled', () => {
+            waitsForPromise(() => { return activationPromise; });
             const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
             TestUtils.withTextEditor(testDataPath, editor => {
                 const config = {
@@ -65,7 +66,6 @@ describe('AtomCppTemplateFoldings', () => {
                 };
                 TestUtils.withConfig(config, () => {
                     atom.commands.dispatch(workspaceElement, 'atom-cpp-template-foldings:fold-all');
-                    waitsForPromise(() => { return activationPromise; });
                     runs(() => {
                         expect(atom.notifications.getNotifications().length).toBe(0);
                     });
@@ -84,9 +84,8 @@ describe('AtomCppTemplateFoldings', () => {
         });
 
         it('automatically folds all templates when file opened', () => {
-            const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
-            atom.commands.dispatch(workspaceElement, 'atom-cpp-template-foldings:fold-all');
             waitsForPromise(() => { return activationPromise; });
+            const testDataPath = TestUtils.testDataAbsolutePath('nested_class_template.h');
             TestUtils.withTextEditor(testDataPath, editor => {
                 runs(() => {
                     expect(editor.getOverlayDecorations().length).toBe(2);
