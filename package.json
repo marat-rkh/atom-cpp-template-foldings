@@ -3,7 +3,11 @@
   "main": "./lib/atom-cpp-template-foldings",
   "version": "0.1.2",
   "description": "Fold C++ template definitions to make them more readable",
-  "keywords": [],
+  "keywords": [
+      "c++",
+      "folding",
+      "template"
+  ],
   "activationCommands": {},
   "repository": "https://github.com/octomarat/atom-cpp-template-foldings",
   "license": "MIT",
