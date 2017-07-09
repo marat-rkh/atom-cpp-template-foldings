@@ -1,7 +1,7 @@
 {
   "name": "atom-cpp-template-foldings",
   "main": "./lib/atom-cpp-template-foldings",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fold C++ template definitions to make them more readable",
   "keywords": [],
   "activationCommands": {},
