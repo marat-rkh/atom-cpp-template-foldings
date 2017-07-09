@@ -5,7 +5,7 @@ Atom plugin that folds C++ template definitions to make them more readable.
 
 C++ template definitions are wordy. This plugin finds all templates in your source file and folds their parameter lists making some simplifications. For example:
 
-![Alt Text](https://github.com/octomarat/atom-cpp-template-foldings/resources/demo.gif)
+![Alt Text](https://github.com/octomarat/atom-cpp-template-foldings/blob/master/resources/demo.gif)
 
 Here folding hides `typename` keywords.
 
@@ -17,7 +17,7 @@ Simplification rules are very simple:
 
 The example below demonstates most of these cases:
 
-![Alt Text](https://github.com/octomarat/atom-cpp-template-foldings/resources/demo-complex.gif)
+![Alt Text](https://github.com/octomarat/atom-cpp-template-foldings/blob/master/resources/demo-complex.gif)
 
 You can apply foldings manually or turn on auto folding on file open (from package settings).
 
