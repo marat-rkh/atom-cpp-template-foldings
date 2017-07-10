@@ -1,7 +1,7 @@
 'use babel';
 
 import { FoldingsManager, FoldingStatus } from '../../lib/folding/foldings-manager.js';
-import { FoldingEvent } from '../../lib/folding/folding-event.js';
+import { FoldingEvent } from '../../lib/folding/model/folding';
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
