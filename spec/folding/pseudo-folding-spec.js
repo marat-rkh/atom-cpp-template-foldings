@@ -1,6 +1,6 @@
 'use babel';
 
-import { PseudoFolding, PseudoFoldingCheck as PFCheck } from '../../lib/folding/pseudo-folding.js';
+import { PseudoFolding, PseudoFoldingCheck as PFCheck } from '../../lib/folding/model/pseudo-folding';
 import TestUtils from '../test-utils.js';
 import { Range } from 'atom';
 
